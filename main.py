@@ -12,6 +12,9 @@ class Node:
         self.Bomb = random.randint(0, 1)
         self.Neighboors = []
 
+    def __str__(self):
+        return self.Bomb;
+
     def get_Neigh(self):
         return self.Neighboors
 
@@ -57,11 +60,13 @@ class Maze:
     #def revealCase(self,x,y):
 
 
+
 if __name__ == '__main__':
     m = Maze()
     m.create_MazeBomb(5)
     m.create_flip()
     m.print_Map()
+
     #m.flip_Maze()
     #while(1):
         #wait user move
