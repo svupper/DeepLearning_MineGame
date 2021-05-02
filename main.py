@@ -28,8 +28,9 @@ class Maze:
     def create_MazeBomb(self,N):
         self.N=N
         for x in range(N):
+            row = []
             for y in range(N):
-                row = []
+                #
                 n = Node(x, y)
                 row.append(n)
 
@@ -41,10 +42,11 @@ class Maze:
                     (0,0,0,0)]
 
     def print_Map(self):
-        for i in range(self.N): print(self.Map[0:self.N])
-
-
-# Press the green button in the gutter to run the script.
+        for row in self.Map:
+            r=[]
+            for col in row:
+                r.append(col.Bomb)
+            print(r)
 
 
 if __name__ == '__main__':
