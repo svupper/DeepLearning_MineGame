@@ -17,7 +17,10 @@ class Node:
         for node in self.Neighboors:
             if node.Bomb == 1:
                 i += 1
-        return i
+        if i>0:
+            return str(i)
+        else:
+            return '.' #reveal neighboor
 
     def __setitem__(self, b, x, y, n):
         self.Bomb = b
@@ -25,7 +28,8 @@ class Node:
         self.y = y
         self.Neighboors = n
 
-    def __getitem__(self):
+    def __getitem__(self,a):
+        #print(a)
         return self.Bomb, self.x, self.y, self.Neighboors
 
     def add_Neigh(self, node):
@@ -40,11 +44,13 @@ class Maze:
         self.displayed = []
         self.create_MazeBomb(N)
         self.create_flip()
+        #self.stack_neigh()
 
     def __str__(self):
         return self.displayed
 
-    def __getitem__(self, x, y):
+    def __getitem__(self, pos):
+        x,y = pos
         return self.Map[x][y]
 
     def __setitem__(self,x,y):
@@ -59,6 +65,40 @@ class Maze:
                 n = Node(x, y)
                 row.append(n)
             self.Map.append(row)
+
+    def stack_neigh(self):
+        x = 0
+        l = self.N - 1
+        for row in self.Map:
+            y=0
+            for node in row:
+                if (x==0 & y==0):
+                    node.add_Neigh(self.Map[x+1][y])
+                    node.add_Neigh(self.Map[x+1][y+1])
+                    node.add_Neigh(self.Map[x][y+1])
+                if (x == l & y == 0):
+                    node.add_Neigh(self.Map[l-1][y])
+                    node.add_Neigh(self.Map[l-1][y+1])
+                    node.add_Neigh(self.Map[l][y+1])
+                if (x == 0 & y == l):
+                    node.add_Neigh(self.Map[x-1][y])
+                    node.add_Neigh(self.Map[x + 1][y+1])
+                    node.add_Neigh(self.Map[x][y+1])
+                if (x == l & y == l):
+                    node.add_Neigh(self.Map[l-1][y])
+                    node.add_Neigh(self.Map[x -1][y-1])
+                    node.add_Neigh(self.Map[x][y-1])
+                else:
+                    node.add_Neigh(self.Map[x-1][y-1])
+                    node.add_Neigh(self.Map[x-1][y])
+                    node.add_Neigh(self.Map[x-1][y+1])
+                    node.add_Neigh(self.Map[x][y-1])
+                    node.add_Neigh(self.Map[x][y+1])
+                    node.add_Neigh(self.Map[x+1][y+1])
+                    node.add_Neigh(self.Map[x+1][y])
+                    node.add_Neigh(self.Map[x+1][y+1])
+                y+=1
+            x+=1
 
     def create_flip(self):
         for row in self.Map:
@@ -97,11 +137,11 @@ class Maze:
 
 if __name__ == '__main__':
     m = Maze()
-    #m.create_MazeBomb(5)
-    #m.create_flip()
+    a = m[1,0]
+    b,_,_,_ = a[0]
+    m.stack_neigh()
     #m.print_Map()
     #m.revealCase(1,1)
-    #m.flip_Maze()
     #while(1):
         #wait user move
         #m.print_Map()
