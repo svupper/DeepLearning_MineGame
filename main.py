@@ -14,8 +14,8 @@ class Node:
 
     def __str__(self):
         i = 0
-        for node in self.Neighboors:
-            if node.Bomb == 1:
+        for noud in self.Neighboors:
+            if noud.Bomb == 1:
                 i += 1
         if i>0:
             return str(i)
@@ -32,8 +32,8 @@ class Node:
         #print(a)
         return self.Bomb, self.x, self.y, self.Neighboors
 
-    def add_Neigh(self, node):
-        self.Neighboors.append(node)
+    def add_Neigh(self, n):
+        self.Neighboors.append(n)
 
     def add_Neigh_List(self, nodes):
         self.Neighboors + nodes
@@ -44,7 +44,7 @@ class Maze:
         self.displayed = []
         self.create_MazeBomb(N)
         self.create_flip()
-        #self.stack_neigh()
+        self.stack_neigh()
 
     def __str__(self):
         return self.displayed
@@ -72,31 +72,15 @@ class Maze:
         for row in self.Map:
             y=0
             for node in row:
-                if (x==0 & y==0):
-                    node.add_Neigh(self.Map[x+1][y])
-                    node.add_Neigh(self.Map[x+1][y+1])
-                    node.add_Neigh(self.Map[x][y+1])
-                if (x == l & y == 0):
-                    node.add_Neigh(self.Map[l-1][y])
-                    node.add_Neigh(self.Map[l-1][y+1])
-                    node.add_Neigh(self.Map[l][y+1])
-                if (x == 0 & y == l):
-                    node.add_Neigh(self.Map[x-1][y])
-                    node.add_Neigh(self.Map[x + 1][y+1])
-                    node.add_Neigh(self.Map[x][y+1])
-                if (x == l & y == l):
-                    node.add_Neigh(self.Map[l-1][y])
-                    node.add_Neigh(self.Map[x -1][y-1])
-                    node.add_Neigh(self.Map[x][y-1])
-                else:
-                    node.add_Neigh(self.Map[x-1][y-1])
-                    node.add_Neigh(self.Map[x-1][y])
-                    node.add_Neigh(self.Map[x-1][y+1])
-                    node.add_Neigh(self.Map[x][y-1])
-                    node.add_Neigh(self.Map[x][y+1])
-                    node.add_Neigh(self.Map[x+1][y+1])
-                    node.add_Neigh(self.Map[x+1][y])
-                    node.add_Neigh(self.Map[x+1][y+1])
+                for a in (-1,0,1):
+                    for b in (-1,0,1):
+                        if((a==0)&(b==0)):
+                            pass
+                        elif(((x+a)<0)|((x+a)>l)|((y+a)<0)|((y+a)>l)|((x+b)<0)|((x+b)>l)|((y+b)<0)|((y+b)>l)):
+                            pass
+                        else:
+                            n = self.Map[x+a][y+b]
+                            node.add_Neigh(n)
                 y+=1
             x+=1
 
@@ -137,10 +121,11 @@ class Maze:
 
 if __name__ == '__main__':
     m = Maze()
-    a = m[1,0]
-    b,_,_,_ = a[0]
-    m.stack_neigh()
-    #m.print_Map()
+
+    #m.stack_neigh_debug()
+    a = m[1, 0]
+    print("hi")
+    m.print_realMap()
     #m.revealCase(1,1)
     #while(1):
         #wait user move
