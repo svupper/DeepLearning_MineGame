@@ -1,2 +1,14 @@
-this is a project that aim to
-create a bot that can plain mines
+This is a mini Project consisting of creating an AI that can play the Mines game
+The idea is to feed a Neural network with the revealed case and to make him learn from mistake how to
+deal with the logic of the game
+For exemple, if he reveals a "2" case, the network will try to reveal an other case
+until he fails and find a bomb, the path of node revealed will be annalyse and retain, the longer it can
+succeed in revealing cases the more he will be to retain the way he revealed it.
+The algorithm doesn't try to solve the mine game by uderstanding how to play correctly but
+how to find a new logic to win it.
+This will therfor consisting of failling a lot, until it breaks a new logic to understand how to reveal it
+and at last this new logic will be the same as the real way to play it.
+I wanted by that to found an algorithm capable of playing any game, just by manipulating input and output
+by rewarding survavibility of the model inside the game and avoiding "Death".
+I'm aware that this behavior will lead to looping scenarios sometimes where the algorithm won't be able
+to win nor to lose and I'm working on it to solve this issue.

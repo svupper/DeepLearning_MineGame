@@ -68,8 +68,17 @@ class Maze:
 
     def stack_neigh(self):
         x = 0
+        mapo = []
+
+        for i in range(self.N):
+            row = []
+            for j in range(self.N):
+                n = Node(i, j)
+                row.append(n)
+            mapo.append(row)
+
         l = self.N - 1
-        for row in self.Map:
+        for row in mapo:
             y=0
             for node in row:
                 for a in (-1,0,1):
@@ -83,6 +92,7 @@ class Maze:
                             node.add_Neigh(n)
                 y+=1
             x+=1
+        self.Map = mapo
 
     def create_flip(self):
         for row in self.Map:
@@ -103,18 +113,17 @@ class Maze:
             print(r)
 
     def revealCase(self,x,y):
+        i = 0
         for row in self.Map:
             r=[]
             j=0
             for col in row:
-
-                print(row)
-                print(j)
-                if ((row==x) & (col==y)):
-                    r.append(self.Map[x][y].Bomb)
-                    print("ezan")
+                if ((i==x) & (j==y)):
+                    r.append(str(self.Map[x][y].Bomb))
                 else:
                     r.append('.')
+                j+=1
+            i+=1
             print(r)
 
 
@@ -126,7 +135,7 @@ if __name__ == '__main__':
     a = m[1, 0]
     print("hi")
     m.print_realMap()
-    #m.revealCase(1,1)
+    m.revealCase(1,1)
     #while(1):
         #wait user move
         #m.print_Map()
