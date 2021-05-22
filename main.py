@@ -17,10 +17,8 @@ class Node:
         for noud in self.Neighboors:
             if noud.Bomb == 1:
                 i += 1
-        if i>0:
-            return str(i)
-        else:
-            return '.' #reveal neighboor
+        return str(i)
+
 
     def __setitem__(self, b, x, y, n):
         self.Bomb = b
@@ -43,7 +41,7 @@ class Maze:
         self.Map = []
         self.displayed = []
         self.create_MazeBomb(N)
-        self.create_flip()
+        self.create_dispMap()
         self.stack_neigh()
 
     def __str__(self):
@@ -69,20 +67,16 @@ class Maze:
     def stack_neigh(self):
         x = 0
         mapo = []
-
         for i in range(self.N):
-            row = []
-            for j in range(self.N):
-                n = Node(i, j)
-                row.append(n)
+            row = self.Map[i].copy()
             mapo.append(row)
 
         l = self.N - 1
         for row in mapo:
-            y=0
+            y = 0
             for node in row:
-                for a in (-1,0,1):
-                    for b in (-1,0,1):
+                for a in (-1, 0, 1):
+                    for b in (-1, 0, 1):
                         if((a==0)&(b==0)):
                             pass
                         elif(((x+a)<0)|((x+a)>l)|((y+a)<0)|((y+a)>l)|((x+b)<0)|((x+b)>l)|((y+b)<0)|((y+b)>l)):
@@ -90,11 +84,11 @@ class Maze:
                         else:
                             n = self.Map[x+a][y+b]
                             node.add_Neigh(n)
-                y+=1
-            x+=1
+                y += 1
+            x += 1
         self.Map = mapo
 
-    def create_flip(self):
+    def create_dispMap(self):
         for row in self.Map:
             r = []
             for col in row:
@@ -107,7 +101,7 @@ class Maze:
 
     def print_realMap(self):
         for row in self.Map:
-            r=[]
+            r = []
             for col in row:
                 r.append(col.Bomb)
             print(r)
@@ -115,16 +109,19 @@ class Maze:
     def revealCase(self,x,y):
         i = 0
         for row in self.Map:
-            r=[]
-            j=0
-            for col in row:
+            j = 0
+            for nod in row:
                 if ((i==x) & (j==y)):
-                    r.append(str(self.Map[x][y].Bomb))
-                else:
-                    r.append('.')
-                j+=1
-            i+=1
-            print(r)
+                    if self.displayed[x][y].__eq__('.'):
+                        self.displayed[x][y] = self.Map[x][y].__str__()
+                        if self.displayed[x][y].__eq__('0'):
+                            for node in nod.Neighboors:
+                                self.revealCase(node.x, node.y)
+
+                j += 1
+            i += 1
+        self.print_Map()
+        print("----------------")
 
 
 
@@ -136,6 +133,7 @@ if __name__ == '__main__':
     print("hi")
     m.print_realMap()
     m.revealCase(1,1)
+    m.revealCase(1, 3)
     #while(1):
         #wait user move
         #m.print_Map()
