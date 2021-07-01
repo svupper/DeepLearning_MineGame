@@ -4,11 +4,12 @@ if __name__ == '__main__':
     debug = False
     Loose = False
     Win = False
-    m = Maze()
+    m = Maze(10)
     if debug:
         m.debugMap()
 
     while not Loose:
+        m.print_Map()
 
         print("reveler une case svp (x): ")
         x = int(input())

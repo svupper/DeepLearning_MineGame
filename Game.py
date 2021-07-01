@@ -6,6 +6,7 @@ class Node:
         self.x = x
         self.y = y
         self.Bomb = random.randint(0, 1)
+        #random.Random.
         self.Neighboors = []
         self.revealed = False
 
