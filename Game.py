@@ -1,12 +1,12 @@
-import random
+import numpy as np
 
 
 class Node:
     def __init__(self, x, y):
         self.x = x
         self.y = y
-        self.Bomb = random.randint(0, 1)
-        #random.Random.
+        self.Bomb = np.random.choice([0,1],p=[0.85,0.15])
+
         self.Neighboors = []
         self.revealed = False
 
@@ -23,7 +23,7 @@ class Node:
         self.y = y
         self.Neighboors = n
 
-    def __getitem__(self, a):
+    def __getitem__(self):
         # print(a)
         return self.Bomb, self.x, self.y, self.Neighboors
 
@@ -55,8 +55,8 @@ class Maze:
         self.N = n
         self.displayed = []
         self.create_Maze(n)
-        #self.create_dispMap()
         self.stack_neigh()
+        self.update_dispMap()
 
     def __str__(self):
         return self.displayed
@@ -67,6 +67,12 @@ class Maze:
 
     def __setitem__(self, x, y, node):
         self.Map[x][y] = node
+
+    def setMap(self, map):
+        self.Map = map
+        self.N = len(map)
+        self.stack_neigh()
+        self.update_dispMap()
 
     def create_Maze(self, N):
         self.N = N
@@ -102,18 +108,21 @@ class Maze:
             x += 1
         self.Map = copy_map
 
-    def print_Map(self):
-
+    def update_dispMap(self):
+        self.displayed = []
         for row in self.Map:
-            hashish = []
+
             for node in row:
                 if node.isrevealed():
-                    hashish.append(str(node))
+                    self.displayed.append(str(node))
                 else:
-                    hashish.append('.')
+                    self.displayed.append('.')
 
-            print(hashish)
-        self.displayed.append(hashish)
+    def print_Map(self):
+
+        for row in self.displayed:
+            print(row)
+
         print("----------------")
 
     def print_Bombs(self):
@@ -126,7 +135,7 @@ class Maze:
     def revealCase(self, x, y):
         if not self.Map[x][y].isrevealed():
             self.Map[x][y].reveal()
-            if str(self.Map[x][y]) =='0':
+            if str(self.Map[x][y]) == '0':
                 origin = self.Map[x][y]
                 for node in origin.Neighboors:
                     self.revealCase(node.x, node.y)
@@ -137,7 +146,7 @@ class Maze:
             row = []
             for y in range(self.N):
                 n = Node(x, y)
-                if (y == 2) & (x == 2):
+                if (y == (int(self.N/2))) & (x == (int(self.N/2))):
                     n.Bomb = 1
                 else:
                     n.Bomb = 0

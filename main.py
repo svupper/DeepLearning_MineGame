@@ -4,30 +4,28 @@ if __name__ == '__main__':
     debug = False
     Loose = False
     Win = False
-    m = Maze(10)
-    if debug:
-        m.debugMap()
+    env = Maze(10)
 
     while not Loose:
-        m.print_Map()
+        env.print_Map()
 
         print("reveler une case svp (x): ")
         x = int(input())
-        assert (x<m.N) & (x+1>0)
+        assert (x<env.N) & (x+1>0)
 
         print("reveler une case svp (y): ")
         y = int(input())
-        assert (y<m.N) & (y+1>0)
+        assert (y<env.N) & (y+1>0)
 
 
-        if m.Map[x][y].isBomb():
+        if env.Map[x][y].isBomb():
             Loose = True
             print("Perdu !")
-            m.print_Bombs()
+            env.print_Bombs()
             break
 
         #Il All revealed without bomb WIN
 
-        m.revealCase(x, y)
-        m.print_Map()
+        env.revealCase(x, y)
+        env.print_Map()
 
